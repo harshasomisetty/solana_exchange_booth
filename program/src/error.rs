@@ -24,6 +24,8 @@ pub enum ExchangeBoothError {
     InvalidInstructionInput,
     #[error("Invalid account data.")]
     InvalidAccountData,
+    #[error("Insufficient token balance.")]
+    InsufficientBalance,
 }
 
 impl From<ExchangeBoothError> for ProgramError {
