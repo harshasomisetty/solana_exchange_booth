@@ -1,0 +1,23 @@
+@import-normalize;
+@tailwind base;
+@tailwind components;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@layer base {
+
+  h2 {
+    @apply text-2xl
+  }
+  h3 {
+    @apply text-xl
+  }
+}
+
+
+@tailwind utilities;
