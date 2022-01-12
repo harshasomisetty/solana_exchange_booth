@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import ConnectToPhantom from "./components/ConnectToPhantom.tsx";
 
 const {
   Connection,
@@ -23,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p className="text-sm">test</p>
+        <ConnectToPhantom />
         {/* {!walletAddress && renderNotConnectedContainer()} */}
         {/* {walletAddress && renderConnectedContainer()} */}
       </header>
