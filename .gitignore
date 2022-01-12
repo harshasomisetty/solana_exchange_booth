@@ -3,3 +3,5 @@
 *test-ledger/
 *target
 /.DS_Store
+program/target
+program/Cargo.lock
