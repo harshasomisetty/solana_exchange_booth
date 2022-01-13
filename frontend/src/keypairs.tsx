@@ -1,3 +1,6 @@
+import {Keypair} from "@solana/web3.js";
+const {PublicKey} = require("@solana/web3.js");
+
 export const TokenAMint = new PublicKey(
   "5Yuz7HSDuMu9xX9Gt6yCx8nndDhcwT2K1fWJkTPjdhvG"
 );

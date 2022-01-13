@@ -18,7 +18,7 @@ import {
   walletToken,
   exbooth_pog_id,
   user,
-} from "../keypairs.tsx";
+} from "../keypairs";
 
 const web3 = require("@solana/web3.js");
 const solana = new web3.Connection("https://api.devnet.solana.com");
@@ -78,7 +78,7 @@ function Swap(walletKey: any, placeHolder: string) {
         1 * Math.pow(10, mintInfo.value.data.parsed.info.decimals);
       const finalVal = tokensOwned / baseValue;
 
-      setBal(finalVal);
+      setBalA(finalVal);
       // console.log(borsh.deserialize(schema, Test, acc.data));
     }
     call(walletKey);
