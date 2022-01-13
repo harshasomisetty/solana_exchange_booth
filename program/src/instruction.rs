@@ -4,6 +4,7 @@ use borsh::{BorshDeserialize, BorshSerialize};
 pub enum ExchangeBoothInstruction {
     InititializeExchangeBooth {
         // TODO
+        fee: u8,
      },
     Deposit {
         // TODO
