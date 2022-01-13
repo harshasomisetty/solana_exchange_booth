@@ -112,6 +112,12 @@ pub fn process(
         "Not enough tokens in deposit account for passed in deposit amount"
     )?;
 
+    assert_with_msg(
+        exchange_booth.fee <= 100,
+        ExchangeBoothError::InvalidAccountData,
+        "Fee percentage should not exceed 100"
+    )?;
+
     // EXCHANGE
 
     // get exchange rate from oracle
