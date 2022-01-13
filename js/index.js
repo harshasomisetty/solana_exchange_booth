@@ -209,8 +209,8 @@ const initTokens = async () => {
 
   // mint token1 to user
   console.log("Minting tokens to user...");
-  await mint1.mintTo(
-    userToken1Account.address,
+  await mint2.mintTo(
+    userToken2Account.address,
     mintAuthority.publicKey,
     [],
     5 * (10 ** mint1Decimals),
@@ -484,7 +484,7 @@ const main = async () => {
 
   // ix
   const exchangeIdx = Buffer.from(new Uint8Array([3]));
-  const swapAmount = Buffer.from( new Uint8Array( (new BN(2 * (10 ** mint1Decimals))).toArray("le", 8) ) );
+  const swapAmount = Buffer.from( new Uint8Array( (new BN(3 * (10 ** mint2Decimals))).toArray("le", 8) ) );
   let exchangeIx = new TransactionInstruction({
     keys: [
       { pubkey: admin.publicKey, isSigner: false, isWritable: false },
@@ -492,12 +492,12 @@ const main = async () => {
       { pubkey: boothVault1Pubkey, isSigner: false, isWritable: true },
       { pubkey: boothVault2Pubkey, isSigner: false, isWritable: true },
       { pubkey: user.publicKey, isSigner: true, isWritable: false },
-      { pubkey: userToken1Account.address, isSigner: false, isWritable: true },
       { pubkey: userToken2Account.address, isSigner: false, isWritable: true },
+      { pubkey: userToken1Account.address, isSigner: false, isWritable: true },
       { pubkey: mint1.publicKey, isSigner: false, isWritable: false },
       { pubkey: mint2.publicKey, isSigner: false, isWritable: false },
       { pubkey: oraclePubkey, isSigner: false, isWritable: false },
-      { pubkey: adminToken1Account.address, isSigner: false, isWritable: true },
+      { pubkey: adminToken2Account.address, isSigner: false, isWritable: true },
       { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
     ],
     programId: exchangeBoothProgramId,

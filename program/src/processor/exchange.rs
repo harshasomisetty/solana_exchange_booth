@@ -157,8 +157,9 @@ pub fn process(
     msg!("fee_amount: {}\ndeposit_amount: {}\nwithdraw_amount:{}", fee_amount, deposit_amount, withdraw_amount);
 
     // check that vault 2 has enough
+    let withdraw_vault_token_account = TokenAccount::unpack(&withdraw_vault.try_borrow_data()?)?;
     assert_with_msg(
-        exchange_booth_vault2.amount >= withdraw_amount,
+        withdraw_vault_token_account.amount >= withdraw_amount,
         ExchangeBoothError::InsufficientBalance,
         "Not enough tokens in vault to withdraw"
     )?;
