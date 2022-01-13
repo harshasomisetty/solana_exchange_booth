@@ -15,7 +15,7 @@ pub enum ExchangeBoothInstruction {
         /// | 2     | ✅       | ❌     | token_account2: vault token account of token 2                                 |
         /// | 3     | ✅       | ❌     | exchange_booth: exchange booth metadata                                  
         /// | 4     | ❌       | ❌     | mint_token1: mint account for token 1                                                            |
-        /// | 5     | ❌       | ❌     | mint account for token 2                                                 |
+        /// | 5     | ❌       | ❌     | mint_token2: mint account for token 2                                                 |
         /// | 6     | ❌       | ❌     | Oracle: Used to set oracle for EB                                        |
         /// | 7     | ❌       | ❌     | token_program: Token Program                                                            |
         /// | 8     | ❌       | ❌     | system_program: System Program                                                           |

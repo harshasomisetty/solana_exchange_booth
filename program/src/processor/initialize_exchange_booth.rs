@@ -13,7 +13,7 @@ use spl_token::{
     id, instruction,
     state::{Account as TokenAccount, Mint}
 };
-
+// use spl_associated_token_account::{create_associated_token_account, get_associated_token_address};
 use crate::{
     error::ExchangeBoothError,
     state::ExchangeBooth as ExchangeBooth,
@@ -126,43 +126,45 @@ pub fn process(
         ],
     )?;
 
-    invoke_signed(
-        &instruction::initialize_account(
-            token_program.key,
-            token_account1.key,
-            mint_token1.key,
-            exchange_booth.key,
-        ).unwrap(),
-        &[admin.clone(), token_account1.clone(), system_program.clone()],
-        &[
-            &[
-                b"exchange_booth",
-                admin.key.as_ref(),
-                mint_token1.key.as_ref(),
-                exchange_booth_key.as_ref(),
-                &[token1_bump]
-            ]
-        ],
-    )?;
+    // &create_associated_token_account()
 
-    invoke_signed(
-        &instruction::initialize_account(
-            token_program.key,
-            token_account2.key,
-            mint_token2.key,
-            exchange_booth.key,
-        ).unwrap(),
-        &[admin.clone(), token_account2.clone(), system_program.clone()],
-        &[
-            &[
-                b"exchange_booth",
-                admin.key.as_ref(),
-                mint_token2.key.as_ref(),
-                exchange_booth_key.as_ref(),
-                &[token1_bump]
-            ]
-        ],
-    )?;
+    // invoke_signed(
+    //     &instruction::initialize_account(
+    //         token_program.key,
+    //         token_account1.key,
+    //         mint_token1.key,
+    //         exchange_booth.key,
+    //     ).unwrap(),
+    //     &[admin.clone(), token_account1.clone(), system_program.clone()],
+    //     &[
+    //         &[
+    //             b"exchange_booth",
+    //             admin.key.as_ref(),
+    //             mint_token1.key.as_ref(),
+    //             exchange_booth_key.as_ref(),
+    //             &[token1_bump]
+    //         ]
+    //     ],
+    // )?;
+
+    // invoke_signed(
+    //     &instruction::initialize_account(
+    //         token_program.key,
+    //         token_account2.key,
+    //         mint_token2.key,
+    //         exchange_booth.key,
+    //     ).unwrap(),
+    //     &[admin.clone(), token_account2.clone(), system_program.clone()],
+    //     &[
+    //         &[
+    //             b"exchange_booth",
+    //             admin.key.as_ref(),
+    //             mint_token2.key.as_ref(),
+    //             exchange_booth_key.as_ref(),
+    //             &[token1_bump]
+    //         ]
+    //     ],
+    // )?;
 
     
     
