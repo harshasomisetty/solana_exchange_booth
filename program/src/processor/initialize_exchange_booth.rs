@@ -39,6 +39,8 @@ pub fn process(
 ) -> ProgramResult {
     let acct_data = &mut accounts.iter();
     let admin = next_account_info(acct_data)?;
+    let temp_token_account1 = next_account_info(acct_data)?;
+    let temp_token_account2 = next_account_info(acct_data)?;
     let token_account1 = next_account_info(acct_data)?;
     let token_account2 = next_account_info(acct_data)?;
     let exchange_booth = next_account_info(acct_data)?;
@@ -96,16 +98,34 @@ pub fn process(
     assert_with_msg(
         token_account1_key == *token_account1.key,
         ProgramError::InvalidArgument,
-        "invalid exchange booth"
+        "invalid token_account1 booth"
     )?;
     
     assert_with_msg(
         token_account2_key == *token_account2.key,
         ProgramError::InvalidArgument,
-        "invalid exchange booth"
+        "invalid token_account2 booth"
     )?;
 
-    // create accounts
+    //check if token account belongs to program
+    assert_with_msg(
+        *program_id == *token_account1.owner,
+        ProgramError::InvalidArgument,
+        "token_account_1 doesn't belong to program"
+    )?;
+
+    assert_with_msg(
+        *program_id == *token_account2.owner,
+        ProgramError::InvalidArgument,
+        "token_account_2 doesn't belong to program"
+    )?;
+
+    // TODO 
+    // check if exchange booth already initialized
+    // let booth_data = &exchange_booth.try_borrow_data()?;
+
+
+    // create exchange booth
     invoke_signed(
         &system_instruction::create_account(
             admin.key,
@@ -126,49 +146,40 @@ pub fn process(
         ],
     )?;
 
-    // &create_associated_token_account()
+    //transfer token authority to PDAs
+    invoke(
+        &spl_token::instruction::set_authority(
+            token_program.key,
+            temp_token_account1.key,
+            Some(token_account1.key),
+            spl_token::instruction::AuthorityType::AccountOwner,
+            admin.key,
+            &[&admin.key],
+        )?,
+        &[
+            temp_token_account1.clone(),
+            admin.clone(),
+            token_program.clone()
+        ]
+    )?;
 
-    // invoke_signed(
-    //     &instruction::initialize_account(
-    //         token_program.key,
-    //         token_account1.key,
-    //         mint_token1.key,
-    //         exchange_booth.key,
-    //     ).unwrap(),
-    //     &[admin.clone(), token_account1.clone(), system_program.clone()],
-    //     &[
-    //         &[
-    //             b"exchange_booth",
-    //             admin.key.as_ref(),
-    //             mint_token1.key.as_ref(),
-    //             exchange_booth_key.as_ref(),
-    //             &[token1_bump]
-    //         ]
-    //     ],
-    // )?;
+    invoke(
+        &spl_token::instruction::set_authority(
+            token_program.key,
+            temp_token_account2.key,
+            Some(token_account2.key),
+            spl_token::instruction::AuthorityType::AccountOwner,
+            admin.key,
+            &[&admin.key],
+        )?,
+        &[
+            temp_token_account1.clone(),
+            admin.clone(),
+            token_program.clone()
+        ]
+    )?;
 
-    // invoke_signed(
-    //     &instruction::initialize_account(
-    //         token_program.key,
-    //         token_account2.key,
-    //         mint_token2.key,
-    //         exchange_booth.key,
-    //     ).unwrap(),
-    //     &[admin.clone(), token_account2.clone(), system_program.clone()],
-    //     &[
-    //         &[
-    //             b"exchange_booth",
-    //             admin.key.as_ref(),
-    //             mint_token2.key.as_ref(),
-    //             exchange_booth_key.as_ref(),
-    //             &[token1_bump]
-    //         ]
-    //     ],
-    // )?;
-
-    
-    
-    // let mut exchange_booth_data = exchange_booth.data.borrow_mut();
+    //set data in exchange booth
     let mut booth = ExchangeBooth {
         admin: *admin.key,
         oracle: *oracle.key,
