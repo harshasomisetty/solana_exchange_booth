@@ -5,9 +5,9 @@ use std::mem::size_of;
 #[derive(BorshSerialize, BorshDeserialize, Debug, Clone)]
 pub struct ExchangeBooth {
     // TODO
-    admin: Pubkey,
-    oracle: Pubkey,
-    token_account1: Pubkey,
-    token_account2: Pubkey,
-    fee: u8,
+    pub admin: Pubkey,
+    pub oracle: Pubkey,
+    pub token_account1: Pubkey,
+    pub token_account2: Pubkey,
+    pub fee: u8,
 }
