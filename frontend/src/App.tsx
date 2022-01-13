@@ -12,6 +12,7 @@ import {
 } from "@solana/web3.js";
 
 import Swap from "./components/Swap";
+import TokenInfo from "./components/TokenInfo";
 
 type DisplayEncoding = "utf8" | "hex";
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
@@ -106,6 +107,7 @@ function App() {
           <a href="https://phantom.app/">
             <p>No provider found. Install Phantom Browser extension</p>
           </a>
+          {/* <TokenInfo /> */}
           <Swap />
         </div>
       )}
@@ -115,6 +117,7 @@ function App() {
           <button className="p-14 font-bold border-4" onClick={connectWallet}>
             Connect to Phantom Wallet
           </button>
+          {/* <TokenInfo /> */}
           <Swap />
         </div>
       )}
@@ -129,6 +132,7 @@ function App() {
           >
             Disconnect
           </button>
+          {/* <TokenInfo /> */}
           <Swap />
         </div>
       )}
