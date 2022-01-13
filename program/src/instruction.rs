@@ -25,7 +25,8 @@ pub enum ExchangeBoothInstruction {
     /// | 6     | ❌       | ❌     | token_mint1 |
     /// | 7     | ❌       | ❌     | token_mint2 |
     /// | 8     | ❌       | ❌     | oracle |
-    /// | 9     | ❌       | ❌     | token_program |
+    /// | 9     | ✅       | ❌     | admin_token_account: PDA, associated token account, matches deposit, for fee |
+    /// | 10    | ❌       | ❌     | token_program |
     Exchange {
         // TODO
         deposit_amount: u64
