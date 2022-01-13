@@ -90,3 +90,4 @@
     - amount to swap (in our token)
   - need to figure out how to call certain program address
     - calling (exchange booth contract)
+[adding phantom](https://www.becomebetterprogrammer.com/web3-react-connect-to-phantom/#Detect_Phantom_Provider_Exists)

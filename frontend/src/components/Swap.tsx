@@ -27,7 +27,7 @@ function Swap(walletKey: any, placeHolder: string) {
               onChange={handleInputChange}
               /* value={inputs.search} */
             />
-            <p>token: {"value"}</p>
+            <p>token: {"name"}</p>
           </div>
         </div>
         <div className="flex flex-col border-4">
@@ -42,7 +42,7 @@ function Swap(walletKey: any, placeHolder: string) {
               placeholder="placeholder"
               /* value={inputs.search} */
             />
-            <p>token: {"value"}</p>
+            <p>token: {"name"}</p>
           </div>
         </div>
 
