@@ -191,7 +191,7 @@ pub fn process(
     let (exchange_booth_key, exchange_bump) = Pubkey::find_program_address(
         &[
             b"exchange_booth", 
-            admin.key.as_ref(),
+            exchange_booth.admin.as_ref(),
             token_mint1.key.as_ref(),
             token_mint2.key.as_ref()
         ],

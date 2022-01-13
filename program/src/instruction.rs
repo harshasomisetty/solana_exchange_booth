@@ -34,7 +34,6 @@ pub enum ExchangeBoothInstruction {
     /// Accounts:
     /// | index | writable | signer | description                                                              |
     /// |-------|----------|--------|--------------------------------------------------------------------------|
-    /// | -1    | ❌       | ❌     | admin: PDA |
     /// | 0     | ❌       | ❌     | exchange_booth: PDA |
     /// | 1     | ✅       | ❌     | exchange_booth_vault1: PDA, associated token account |
     /// | 2     | ✅       | ❌     | exchange_booth_vault2: PDA, associated token account |

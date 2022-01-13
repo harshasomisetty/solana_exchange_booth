@@ -11,8 +11,48 @@ export const toWallet = new PublicKey(
 export const walletToken = new PublicKey(
   "5KNwMY92xQhCBa523KgHHtQWVKamcx4AEtVHsEqjnsH1"
 );
-export const exbooth_pog_id = new PublicKey(
-  "6716eLivZExNpcPCV8ZPxNXJvYHoKg4eu448vkUAEFU9"
+
+
+
+
+export const exchangeBoothPubkey = new PublicKey(
+  "7KBbeqMrScuSE9s3QJppS9MLuCYgkdiMRw9B8WEqfXZ2"
+);
+
+export const boothVault1PubKey = new PublicKey(
+  "2YjxDo23FeZZBKb17z94ysFkpTKwHSEXUEk4QxFDanJ7"
+);
+
+export const boothVault2PubKey = new PublicKey(
+  "Bu4qWhhf7YuEy1bw8x4QJSUBdX4yr1pAP4E7NyQJ583g"
+);
+
+export const tokenAccA = new PublicKey(
+  "E7wUuLEcu9as38q3ZYo97K8fmnGuPq5VEjYvKqtbUBPa"
+);
+
+export const tokenAccB = new PublicKey(
+  "B5VhPpErnW5TmAYvUyNNE4eBUnL48hUULx6TzWhGhqUK"
+);
+
+export const mint1 = new PublicKey(
+  "HQ4Bya6SCx9tduzzuWccbozEWNCPQZEiN24AxuqD9fPc"
+);
+
+export const mint2 = new PublicKey(
+  "2C9f9k2heGwPgYvM89cJX165HjG7aMJmRAN8ac8irX1u"
+);
+
+export const oraclePubkey = new PublicKey(
+  "FBjwZJP63ZB7YfL6xzGErzz6AZxC2pYLzE9HrvnW6kwg"
+);
+
+export const adminTokenAccount = new PublicKey(
+  "89V5DeiF7Ya6fNSpMiG345vkUjsccuu12Qitjvduvvpd"
+);
+
+export const TOKEN_PROGRAM_ID = new PublicKey(
+  "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 );
 
 export const user = Keypair.fromSecretKey(
