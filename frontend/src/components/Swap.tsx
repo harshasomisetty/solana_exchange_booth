@@ -62,7 +62,8 @@ function Swap(walletKey: any, placeHolder: string) {
   };
 
   const {inputs, handleInputChange, handleSubmit} = useForm(signup);
-  const [Bal, setBal] = useState(0);
+  const [BalA, setBalA] = useState(0);
+  const [BalB, setBalB] = useState(0);
 
   useEffect(() => {
     async function call(walletKey) {
@@ -88,7 +89,7 @@ function Swap(walletKey: any, placeHolder: string) {
         <div className="flex flex-col border-4">
           <div className="flex flex-row justify-between text-xs">
             <p>from</p>
-            <p>balance: {Bal}</p>
+            <p>balance: {BalA}</p>
           </div>
           <div className="flex flex-row justify-between">
             <input
@@ -98,13 +99,13 @@ function Swap(walletKey: any, placeHolder: string) {
               onChange={handleInputChange}
               /* value={inputs.search} */
             />
-            <p>token: {"name"}</p>
+            <p>token: {BalB}</p>
           </div>
         </div>
         <div className="flex flex-col border-4">
           <div className="flex flex-row justify-between text-xs">
             <p>to</p>
-            {/* <p>balance: {"value"}</p> */}
+            <p>balance: {"value"}</p>
           </div>
           <div className="flex flex-row justify-between">
             <input
