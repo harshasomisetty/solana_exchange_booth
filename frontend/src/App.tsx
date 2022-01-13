@@ -102,40 +102,41 @@ function App() {
 
   return (
     <div className="flex flex-row justify-center m-4">
-      {!provider && (
-        <div className="border">
-          <a href="https://phantom.app/">
-            <p>No provider found. Install Phantom Browser extension</p>
-          </a>
-          {/* <TokenInfo /> */}
-          <Swap />
-        </div>
-      )}
+      <Swap walletKey={""} />
+      {/* {!provider && ( */}
+      {/*   <div className="border"> */}
+      {/*     <a href="https://phantom.app/"> */}
+      {/*       <p>No provider found. Install Phantom Browser extension</p> */}
+      {/*     </a> */}
+      {/*     {/\* <TokenInfo /> *\/} */}
 
-      {provider && !walletKey && (
-        <div>
-          <button className="p-14 font-bold border-4" onClick={connectWallet}>
-            Connect to Phantom Wallet
-          </button>
-          {/* <TokenInfo /> */}
-          <Swap />
-        </div>
-      )}
+      {/*   </div> */}
+      {/* )} */}
 
-      {provider && walletKey && (
-        <div>
-          <p>Connected account {walletKey}</p>
+      {/* {provider && !walletKey && ( */}
+      {/*   <div> */}
+      {/*     <button className="p-14 font-bold border-4" onClick={connectWallet}> */}
+      {/*       Connect to Phantom Wallet */}
+      {/*     </button> */}
+      {/*     {/\* <TokenInfo /> *\/} */}
 
-          <button
-            className="p-14 font-bold border-4 m-15"
-            onClick={disconnectWallet}
-          >
-            Disconnect
-          </button>
-          {/* <TokenInfo /> */}
-          <Swap />
-        </div>
-      )}
+      {/*   </div> */}
+      {/* )} */}
+
+      {/* {provider && walletKey && ( */}
+      {/*   <div> */}
+      {/*     <p>Connected account {walletKey}</p> */}
+
+      {/*     <button */}
+      {/*       className="p-14 font-bold border-4 m-15" */}
+      {/*       onClick={disconnectWallet} */}
+      {/*     > */}
+      {/*       Disconnect */}
+      {/*     </button> */}
+      {/*     {/\* <TokenInfo /> *\/} */}
+      {/*     <Swap /> */}
+      {/*   </div> */}
+      {/* )} */}
     </div>
   );
 }

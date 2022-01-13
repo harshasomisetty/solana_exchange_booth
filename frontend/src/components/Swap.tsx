@@ -12,21 +12,53 @@ import {
   clusterApiUrl,
 } from "@solana/web3.js";
 
+import {
+  TokenAMint,
+  toWallet,
+  walletToken,
+  exbooth_pog_id,
+  user,
+} from "../keypairs.tsx";
+
 const web3 = require("@solana/web3.js");
 const solana = new web3.Connection("https://api.devnet.solana.com");
+const BN = require("bn.js");
 const {PublicKey} = require("@solana/web3.js");
 
-const TokenAMint = new PublicKey(
-  "5Yuz7HSDuMu9xX9Gt6yCx8nndDhcwT2K1fWJkTPjdhvG"
-);
-const toWallet = new PublicKey("5rE973DJcN7h1aEKuUdG2QsLLycYfGM6ty9KCwAaUb4m");
-const walletToken = new PublicKey(
-  "5KNwMY92xQhCBa523KgHHtQWVKamcx4AEtVHsEqjnsH1"
-);
-
 function Swap(walletKey: any, placeHolder: string) {
-  const signup = () => {
-    console.log("hi");
+  const signup = async () => {
+    const input_amount = inputs["input_amount"];
+
+    const messageLen = Buffer.from(
+      new Uint8Array(new BN(input_amount.len).toArray("le", 4))
+    );
+    const message = Buffer.from(input_amount, "ascii");
+    let echoIx = new TransactionInstruction({
+      keys: [
+        {
+          pubkey: user.publicKey,
+          isSigner: false,
+          isWritable: true,
+        },
+      ],
+      programId: exbooth_pog_id,
+      data: Buffer.concat([
+        Buffer.from(new Uint8Array([3])),
+        messageLen,
+        message,
+      ]),
+    });
+
+    let tx = new Transaction();
+    tx.add(echoIx);
+
+    let txid = await sendAndConfirmTransaction(solana, tx, [user], {
+      skipPreflight: true,
+      preflightCommitment: "confirmed",
+      commitment: "confirmed",
+    });
+
+    console.log(toWallet);
   };
 
   const {inputs, handleInputChange, handleSubmit} = useForm(signup);
@@ -51,7 +83,7 @@ function Swap(walletKey: any, placeHolder: string) {
     call(walletKey);
   }, [walletKey]);
   return (
-    <div>
+    <div className="">
       <form id="form" onSubmit={handleSubmit} className="flex flex-col">
         <div className="flex flex-col border-4">
           <div className="flex flex-row justify-between text-xs">
@@ -61,7 +93,7 @@ function Swap(walletKey: any, placeHolder: string) {
           <div className="flex flex-row justify-between">
             <input
               type=""
-              name="input-amount"
+              name="input_amount"
               placeholder="placeholder"
               onChange={handleInputChange}
               /* value={inputs.search} */
