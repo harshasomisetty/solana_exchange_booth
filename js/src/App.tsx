@@ -1,6 +1,17 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import {PublicKey, Transaction} from "@solana/web3.js";
+import {
+  Connection,
+  PublicKey,
+  sendAndConfirmTransaction,
+  Keypair,
+  Transaction,
+  SystemProgram,
+  TransactionInstruction,
+  clusterApiUrl,
+} from "@solana/web3.js";
+
+import Swap from "./components/Swap";
 
 type DisplayEncoding = "utf8" | "hex";
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
@@ -89,35 +100,38 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>Tutorial: Connect to Phantom Wallet</h2>
-        {provider && !walletKey && (
+    <div className="flex flex-row justify-center m-4">
+      {!provider && (
+        <div className="border">
+          <a href="https://phantom.app/">
+            <p>No provider found. Install Phantom Browser extension</p>
+          </a>
+          <Swap />
+        </div>
+      )}
+
+      {provider && !walletKey && (
+        <div>
           <button className="p-14 font-bold border-4" onClick={connectWallet}>
             Connect to Phantom Wallet
           </button>
-        )}
+          <Swap />
+        </div>
+      )}
 
-        {provider && walletKey && (
-          <div>
-            <p>Connected account {walletKey}</p>
+      {provider && walletKey && (
+        <div>
+          <p>Connected account {walletKey}</p>
 
-            <button
-              className="p-14 font-bold border-4 m-15"
-              onClick={disconnectWallet}
-            >
-              Disconnect
-            </button>
-          </div>
-        )}
-
-        {!provider && (
-          <p>
-            No provider found. Install{" "}
-            <a href="https://phantom.app/">Phantom Browser extension</a>
-          </p>
-        )}
-      </header>
+          <button
+            className="p-14 font-bold border-4 m-15"
+            onClick={disconnectWallet}
+          >
+            Disconnect
+          </button>
+          <Swap />
+        </div>
+      )}
     </div>
   );
 }
