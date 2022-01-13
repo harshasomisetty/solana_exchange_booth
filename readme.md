@@ -77,3 +77,16 @@
     - token account 1 - pubkey
     - token account 2 - pubkey
     - fee: u8 (int out of 100?)
+    
+## frontend goal
+- function that creates token account if doesn't exist
+  - create token account, calling a rust function
+- need swap function
+  - pass keys: 
+    - mint a
+    - mint b
+    - user account
+  - data
+    - amount to swap (in our token)
+  - need to figure out how to call certain program address
+    - calling (exchange booth contract)

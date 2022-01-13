@@ -1,41 +1,12 @@
 module.exports = {
-  purge: {
-    enabled: false,
-    content: ["./src/**/*.{js,jsx}"],
+  important: true,
+  //Purging for Production is configured in PostCSS Config
+  purge:{    
+    content: ["./src/**/*.html", "./src/**/*.jsx", "./src/**/*.js"],
   },
-  darkMode: "class",
   theme: {
-    fontFamily: {
-      main: ["Helvetica Neue"],
-      test: ["Comic Sans"],
-    },
-    extend: {
-      colors: {
-        backgroundcol: "#15202B",
-        primary: "#202225",
-        secondary: "#5865f2",
-      },
-      lineHeight: {
-        1: ".1rem",
-      },
-      xIndex: {
-        100: "100",
-      },
-    },
-    container: {
-      center: true,
-      padding: "1rem",
-      screens: {
-        lg: "1250px",
-        xl: "1250px",
-        "2xl": "1250px",
-      },
-    },
+    extend: {},
   },
-  variants: {
-    extend: {
-      scale: ["active", "group-hover"],
-    },
-  },
+  variants: {},
+  plugins: [],
 };
-
