@@ -144,7 +144,7 @@ pub fn process(
     // all oracle data is specified in native amounts
     // account for fee
     let fee_amount = deposit_amount * (exchange_booth.fee as u64) / 100;
-    let deposit_amount = deposit_amount - fee;
+    let deposit_amount = deposit_amount - fee_amount;
     let withdraw_amount = deposit_amount * (withdraw_factor / deposit_factor);
 
     // check that vault 2 has enough
