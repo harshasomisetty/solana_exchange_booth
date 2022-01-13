@@ -50,6 +50,7 @@ const user = Keypair.fromSecretKey(
 
 const mint1Decimals = 9;
 const mint2Decimals = 6;
+const fee = 3;
 
 const oraclePubkey = new PublicKey("FBjwZJP63ZB7YfL6xzGErzz6AZxC2pYLzE9HrvnW6kwg");
 const oracleProgramId = new PublicKey("5JRoHC688zRpp6siyPRK89DTcZBcFuLxHMj6KMxmPD5t");
@@ -212,7 +213,7 @@ const initTokens = async () => {
     userToken1Account.address,
     mintAuthority.publicKey,
     [],
-    1 * (10 ** mint1Decimals),
+    5 * (10 ** mint1Decimals),
   )
 
   // PDAs
@@ -255,6 +256,7 @@ const initTokens = async () => {
     mint1.publicKey,
     boothVault1Pubkey,
     exchangeBoothPubkey,
+    // admin.publicKey,
     admin.publicKey,
   );
   const initBoothVault2Ix = await Token.createAssociatedTokenAccountInstruction(
@@ -263,6 +265,7 @@ const initTokens = async () => {
     mint2.publicKey,
     boothVault2Pubkey,
     exchangeBoothPubkey,
+    // admin.publicKey,
     admin.publicKey,
   );
 
@@ -332,22 +335,94 @@ const main = async () => {
 
   // TODO print balances of different tokens for each account
 
+  // Initialize exchange booth
+  console.log("Initializing exchange booth...");
 
-  // create tx
+  const initIdx = Buffer.from(new Uint8Array([0]));
+  const feeBuffer = Buffer.from(new Uint8Array((new BN(fee)).toArray("le", 1)));
 
-  // TODO
-  // const initBoothIdx = Buffer.from(new Uint8Array([0]));
-  // const transferAmount1 = Buffer.from(new Uint8Array((new BN(3))).toArray("le", 4)));
-  // const transferAmount1 = Buffer.from(new Uint8Array((new BN(4 * (10 ** mint1Decimals))).toArray("le", 8)));
-  // const initExchangeBoothIx = new TransactionInstruction({
-  //   keys: [
-  //   ],
-  //   programId: exchangeBoothProgramId,
-  //   // data: Buffer.concat([idx, Buffer.from(new Uint8Array([2, 0, 0, 0])), Buffer.from(new Uint8Array([buffer_seed])), Buffer.from(new Uint8Array([buffer_size]))]),
-  //   data: Buffer.concat([
-  //     initBoothIdx
-  //   ])
-  // });
+  let initIx = new TransactionInstruction({
+    keys: [
+      {
+        pubkey: admin.publicKey,
+        isSigner: true,
+        isWritable: false,
+      },
+      {
+        pubkey: boothVault1Pubkey,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: boothVault2Pubkey,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: boothVault1Pubkey,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: boothVault2Pubkey,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: exchangeBoothPubkey,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: mint1.publicKey,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: mint2.publicKey,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: oraclePubkey,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: TOKEN_PROGRAM_ID,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: SystemProgram.programId,
+        isSigner: false,
+        isWritable: false,
+      },
+    ],
+    programId: exchangeBoothProgramId,
+    data: Buffer.concat([
+      initIdx,
+      feeBuffer,
+    ]),
+  });
+
+  let initTx = new Transaction();
+  initTx.add(initIx);
+
+  let initTxid = await sendAndConfirmTransaction(
+    connection,
+    initTx,
+    [admin],
+    {
+      skipPreflight: true,
+      preflightCommitment: "confirmed",
+      confirmation: "confirmed",
+    }
+  );
+  console.log(`https://explorer.solana.com/tx/${initTxid}?cluster=devnet`);
+
+  data = (await connection.getAccountInfo(exchangeBoothPubkey)).data;
+  console.log("Init Buffer Text:", data);
 
   // Send tokens from admin to vaults
   console.log("Sending tokens from admin to vaults...");
@@ -412,6 +487,7 @@ const main = async () => {
   const swapAmount = Buffer.from( new Uint8Array( (new BN(2 * (10 ** mint1Decimals))).toArray("le", 8) ) );
   let exchangeIx = new TransactionInstruction({
     keys: [
+      { pubkey: admin.publicKey, isSigner: false, isWritable: false },
       { pubkey: exchangeBoothPubkey, isSigner: false, isWritable: false },
       { pubkey: boothVault1Pubkey, isSigner: false, isWritable: true },
       { pubkey: boothVault2Pubkey, isSigner: false, isWritable: true },
@@ -452,8 +528,8 @@ const main = async () => {
   const userToken2AccountInfo = (await connection.getParsedTokenAccountsByOwner(user.publicKey, { mint: mint2.publicKey })).value[0].account.data.parsed.info;
   vault1AccountInfo = (await connection.getParsedTokenAccountsByOwner(exchangeBoothPubkey, { mint: mint1.publicKey })).value[0].account.data.parsed.info;
   vault2AccountInfo = (await connection.getParsedTokenAccountsByOwner(exchangeBoothPubkey, { mint: mint2.publicKey })).value[0].account.data.parsed.info;
-  console.log("adminToken1Account balance:", userToken1AccountInfo.tokenAmount.amount);
-  console.log("adminToken2ccount balance:", userToken2AccountInfo.tokenAmount.amount);
+  console.log("userToken1Account balance:", userToken1AccountInfo.tokenAmount.amount);
+  console.log("userToken2ccount balance:", userToken2AccountInfo.tokenAmount.amount);
   console.log("vault1Account balance:", vault1AccountInfo.tokenAmount.amount);
   console.log("vault2Account balance:", vault2AccountInfo.tokenAmount.amount);
 }

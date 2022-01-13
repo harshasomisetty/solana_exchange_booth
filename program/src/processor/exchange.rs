@@ -38,6 +38,7 @@ pub fn process(
     // ACCOUNTS
     let accounts_iter = &mut accounts.iter();
 
+    let admin = next_account_info(accounts_iter)?;
     let exchange_booth_ai = next_account_info(accounts_iter)?;
     let exchange_booth_vault1_ai = next_account_info(accounts_iter)?;
     let exchange_booth_vault2_ai = next_account_info(accounts_iter)?;
@@ -149,9 +150,11 @@ pub fn process(
     // basic formula: with_amount = dep_amount * (with_factor / dep_factor)
     // all oracle data is specified in native amounts
     // account for fee
-    let fee_amount = deposit_amount * (exchange_booth.fee as u64) / 100;
+    let fee_amount = ((deposit_amount as f64) * (exchange_booth.fee as f64) / (100 as f64)) as u64;
     let deposit_amount = deposit_amount - fee_amount;
-    let withdraw_amount = deposit_amount * (withdraw_factor / deposit_factor);
+    let withdraw_amount = (((deposit_amount * withdraw_factor) as f64) / deposit_factor as f64) as u64;
+
+    msg!("fee_amount: {}\ndeposit_amount: {}\nwithdraw_amount:{}", fee_amount, deposit_amount, withdraw_amount);
 
     // check that vault 2 has enough
     assert_with_msg(
@@ -168,7 +171,7 @@ pub fn process(
             &admin_token_account_ai.key,
             &user.key,
             &[&user.key],
-            fee_amount).unwrap(),
+            fee_amount)?,
         &[user_deposit_token_account_ai.clone(), admin_token_account_ai.clone(), user.clone()],
     )?;
 
@@ -180,9 +183,19 @@ pub fn process(
             &deposit_vault.key,
             &user.key,
             &[&user.key],
-            deposit_amount).unwrap(),
+            deposit_amount)?,
         &[user_deposit_token_account_ai.clone(), deposit_vault.clone(), user.clone()],
     )?;
+
+    let (exchange_booth_key, exchange_bump) = Pubkey::find_program_address(
+        &[
+            b"exchange_booth", 
+            admin.key.as_ref(),
+            token_mint1.key.as_ref(),
+            token_mint2.key.as_ref()
+        ],
+        program_id,
+    );
 
     // withdraw token2 from vault
     invoke_signed(
@@ -191,10 +204,10 @@ pub fn process(
             &withdraw_vault.key,
             &user_withdraw_token_account_ai.key,
             &exchange_booth_ai.key,
-            &[&exchange_booth_ai.key],
-            withdraw_amount).unwrap(),
+            &[],
+            withdraw_amount)?,
         &[withdraw_vault.clone(), user_withdraw_token_account_ai.clone(), exchange_booth_ai.clone()],
-        &[&[ b"exchange_booth", exchange_booth.admin.as_ref(), token_mint1.key.as_ref(), token_mint2.key.as_ref()]]
+        &[&[ b"exchange_booth", exchange_booth.admin.as_ref(), token_mint1.key.as_ref(), token_mint2.key.as_ref(), &[exchange_bump]]]
     )?;
 
     Ok(())
