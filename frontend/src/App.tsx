@@ -102,7 +102,8 @@ function App() {
 
   return (
     <div className="flex flex-row justify-center m-4">
-      {!provider && (
+       <Swap />
+      {/* {!provider && (
         <div className="border">
           <a href="https://phantom.app/">
             <p>No provider found. Install Phantom Browser extension</p>
@@ -125,10 +126,9 @@ function App() {
           >
             Disconnect
           </button>
-
           <Swap />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

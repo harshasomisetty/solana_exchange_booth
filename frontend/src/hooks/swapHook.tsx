@@ -18,6 +18,7 @@ const useForm = (callback) => {
     setInputs((inputs) => ({
       ...inputs,
       [event.target.name]: event.target.value,
+      
     }));
   };
 

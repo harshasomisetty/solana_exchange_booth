@@ -24,7 +24,7 @@ const web3 = require("@solana/web3.js");
 const solana = new web3.Connection("https://api.devnet.solana.com");
 const BN = require("bn.js");
 const {PublicKey} = require("@solana/web3.js");
-
+const exchange_rate = 2;
 function Swap(walletKey: any, placeHolder: string) {
   const signup = async () => {
     const input_amount = inputs["input_amount"];
@@ -66,6 +66,7 @@ function Swap(walletKey: any, placeHolder: string) {
   const [BalB, setBalB] = useState(0);
 
   useEffect(() => {
+    inputs["input_amount"] = 0;
     async function call(walletKey) {
       const acc = await solana.getAccountInfo(walletToken, "confirmed");
       const response = await solana.getParsedTokenAccountsByOwner(toWallet, {
@@ -97,7 +98,7 @@ function Swap(walletKey: any, placeHolder: string) {
               name="input_amount"
               placeholder="placeholder"
               onChange={handleInputChange}
-              /* value={inputs.search} */
+              value={inputs["input_amount"]} 
             />
             <p>token: {BalB}</p>
           </div>
@@ -112,7 +113,7 @@ function Swap(walletKey: any, placeHolder: string) {
               type=""
               name="output-amount"
               placeholder="placeholder"
-              /* value={inputs.search} */
+               value={exchange_rate*inputs["input_amount"]} 
             />
             <p>token: {"name"}</p>
           </div>
