@@ -9,16 +9,16 @@ pub enum ExchangeBoothInstruction {
     /// | index | writable | signer | description                                                              |
     /// |-------|----------|--------|--------------------------------------------------------------------------|
     /// | 0     | ❌       | ✅     | admin: Pubkey with sole write access to `authorized_buffer`              |
-    /// | 1     | ✅       | ❌     | temp_token_account1:                                                     |
-    /// | 2     | ✅       | ❌     | temp_token_account2:                                                     |
-    /// | 1     | ✅       | ❌     | token_account1: vault token account of token 1                           |
-    /// | 2     | ✅       | ❌     | token_account2: vault token account of token 2                           |
-    /// | 3     | ✅       | ❌     | exchange_booth: exchange booth metadata                                  |
-    /// | 4     | ❌       | ❌     | mint_token1: mint account for token 1                                    |
-    /// | 5     | ❌       | ❌     | mint_token2: mint account for token 2                                    |
-    /// | 6     | ❌       | ❌     | Oracle: Used to set oracle for EB                                        |
-    /// | 7     | ❌       | ❌     | token_program: Token Program                                             |
-    /// | 8     | ❌       | ❌     | system_program: System Program                                           |
+    /// | 1     | ✅       | ❌     | temp_token_account1: token account owned by admin created for vault      |
+    /// | 2     | ✅       | ❌     | temp_token_account2: token account owned by admin created for vault      |
+    /// | 3     | ✅       | ❌     | token_account1: vault token account of token 1                           |
+    /// | 4     | ✅       | ❌     | token_account2: vault token account of token 2                           |
+    /// | 5     | ✅       | ❌     | exchange_booth: exchange booth metadata                                  |
+    /// | 6     | ❌       | ❌     | mint_token1: mint account for token 1                                    |
+    /// | 7     | ❌       | ❌     | mint_token2: mint account for token 2                                    |
+    /// | 8     | ❌       | ❌     | Oracle: Used to set oracle for EB                                        |
+    /// | 9     | ❌       | ❌     | token_program: Token Program                                             |
+    /// | 10     | ❌       | ❌     | system_program: System Program                                           |
     InititializeExchangeBooth {
         fee: u8,
      },

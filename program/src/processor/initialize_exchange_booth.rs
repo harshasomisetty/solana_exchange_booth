@@ -147,7 +147,7 @@ pub fn process(
     )?;
 
     //transfer token authority to PDAs
-    invoke(
+    invoke(t
         &spl_token::instruction::set_authority(
             token_program.key,
             temp_token_account1.key,
