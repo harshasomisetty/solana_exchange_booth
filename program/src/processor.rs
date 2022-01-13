@@ -24,9 +24,9 @@ impl Processor {
             .map_err(|_| ProgramError::InvalidInstructionData)?;
 
         match instruction {
-            ExchangeBoothInstruction::InititializeExchangeBooth { } => {
+            ExchangeBoothInstruction::InititializeExchangeBooth { fee } => {
                 msg!("Instruction: InitializeExchangeBooth");
-                initialize_exchange_booth::process(program_id, accounts)?;
+                initialize_exchange_booth::process(program_id, accounts, fee)?;
             }
             ExchangeBoothInstruction::Deposit { } => {
                 msg!("Instruction: Deposit");
@@ -36,9 +36,9 @@ impl Processor {
                 msg!("Instruction: Withdraw");
                 withdraw::process(program_id, accounts)?;
             }
-            ExchangeBoothInstruction::Exchange { } => {
-                msg!("Instruction: Withdraw");
-                exchange::process(program_id, accounts)?;
+            ExchangeBoothInstruction::Exchange { deposit_amount } => {
+                msg!("Instruction: Exchange");
+                exchange::process(program_id, accounts, deposit_amount)?;
             }
             ExchangeBoothInstruction::CloseExchangeBooth { } => {
                 msg!("Instruction: CloseExchangeBooth");

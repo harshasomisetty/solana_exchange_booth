@@ -5,6 +5,9 @@
 /.DS_Store
 program/target
 program/Cargo.lock
+js/node_modules
+
+###
 /js/src/react-app-env.d.ts
 
 /.pnp
