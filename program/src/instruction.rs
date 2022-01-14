@@ -25,7 +25,22 @@ pub enum ExchangeBoothInstruction {
     InititializeExchangeBooth {
         // TODO
         fee: u8,
-     },
+    },
+
+    /// Deposits equal amount of each token according to ratio of supply
+    /// Allocates if needed LP token account for depositor
+    /// Mints LP tokens to depositor
+    /// 
+    /// Accounts
+    /// 0 `[]` exchange booth (LP mint authority, signer on program's behalf)
+    /// 1 `[writable]` vault1
+    /// 2 `[writable]` vault2
+    /// 3 `[writable]` LP mint
+    /// 4 `[signer]` depositor
+    /// 5 `[writable]` depositor token account 1
+    /// 6 `[writable]` depositor token account 2
+    /// 7 `[writable]` depositor LP account
+    /// 8 `[]` token program
     Deposit {
         // TODOING
         user: Pubkey, // address of user calling contract
@@ -35,6 +50,20 @@ pub enum ExchangeBoothInstruction {
         eb_token: Pubkey, // token address used in EB contract (should be same as mint)
         token_amount: u64, // amount that user wants to deposit
     },
+
+    /// Withdraws portions of supply proportionate to LP tokens
+    /// Burns LP tokens
+    /// 
+    /// Accounts
+    /// 0 `[]` exchange booth (LP mint authority, signer on program's behalf)
+    /// 1 `[writable]` vault1
+    /// 2 `[writable]` vault2
+    /// 3 `[writable]` LP mint
+    /// 4 `[signer]` withdrawer
+    /// 5 `[writable]` withdrawer token account 1
+    /// 6 `[writable]` withdrawer token account 2
+    /// 7 `[writable]` withdrawer LP account
+    /// 8 `[]` token program
     Withdraw {
         // TODOING
         user: Pubkey, // address of user calling contract
@@ -44,6 +73,7 @@ pub enum ExchangeBoothInstruction {
         eb_token: Pubkey, // token address used in EB contract (should be same as mint)
         token_amount: u64, // amount that user wants to deposit
     },
+
     /// Exchanges an amount of token for another from a specified exchange booth
     /// 
     /// Accounts:
@@ -64,6 +94,7 @@ pub enum ExchangeBoothInstruction {
         // TODO
         deposit_amount: u64
     },
+
     CloseExchangeBooth {
         // TODO
     },

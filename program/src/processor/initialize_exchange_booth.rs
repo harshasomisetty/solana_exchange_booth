@@ -124,28 +124,6 @@ pub fn process(
     // check if exchange booth already initialized
     // let booth_data = &exchange_booth.try_borrow_data()?;
 
-
-    // create exchange booth
-    invoke_signed(
-        &system_instruction::create_account(
-            admin.key,
-            exchange_booth.key,
-            Rent::get()?.minimum_balance(size_of::<ExchangeBooth>()),
-            size_of::<ExchangeBooth>() as u64,
-            program_id,
-        ),
-        &[admin.clone(), exchange_booth.clone(), system_program.clone()],
-        &[
-            &[
-                b"exchange_booth",
-                admin.key.as_ref(),
-                mint_token1.key.as_ref(),
-                mint_token2.key.as_ref(),
-                &[exchange_bump]
-            ]
-        ],
-    )?;
-
     //transfer token authority to PDAs
     // invoke(
     //     &spl_token::instruction::set_authority(
@@ -178,6 +156,31 @@ pub fn process(
     //         token_program.clone()
     //     ]
     // )?;
+
+
+    // TODO create lp mint - exchange booth as mint authority
+    
+
+    // create exchange booth
+    invoke_signed(
+        &system_instruction::create_account(
+            admin.key,
+            exchange_booth.key,
+            Rent::get()?.minimum_balance(size_of::<ExchangeBooth>()),
+            size_of::<ExchangeBooth>() as u64,
+            program_id,
+        ),
+        &[admin.clone(), exchange_booth.clone(), system_program.clone()],
+        &[
+            &[
+                b"exchange_booth",
+                admin.key.as_ref(),
+                mint_token1.key.as_ref(),
+                mint_token2.key.as_ref(),
+                &[exchange_bump]
+            ]
+        ],
+    )?;
 
     //set data in exchange booth
     let mut booth = ExchangeBooth {

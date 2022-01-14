@@ -11,7 +11,7 @@ import {
   clusterApiUrl,
 } from "@solana/web3.js";
 
-import Swap from "./components/Swap";
+import Trade from "./components/Trade";
 import TokenInfo from "./components/TokenInfo";
 
 type DisplayEncoding = "utf8" | "hex";
@@ -72,7 +72,7 @@ function App() {
       try {
         const response = await solana.connect();
         console.log("wallet account ", response.publicKey.toString());
-        setWalletKey(response.publicKey.toString());
+        setWalletKey(response.publicKey);
       } catch (err) {
         // { code: 4001, message: 'User rejected the request.' }
       }
@@ -102,7 +102,7 @@ function App() {
 
   return (
     <div className="flex flex-row justify-center m-4">
-       <Swap />
+       <Trade />
       {/* {!provider && (
         <div className="border">
           <a href="https://phantom.app/">

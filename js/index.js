@@ -487,7 +487,6 @@ const main = async () => {
   const swapAmount = Buffer.from( new Uint8Array( (new BN(3 * (10 ** mint2Decimals))).toArray("le", 8) ) );
   let exchangeIx = new TransactionInstruction({
     keys: [
-      { pubkey: admin.publicKey, isSigner: false, isWritable: false },
       { pubkey: exchangeBoothPubkey, isSigner: false, isWritable: false },
       { pubkey: boothVault1Pubkey, isSigner: false, isWritable: true },
       { pubkey: boothVault2Pubkey, isSigner: false, isWritable: true },

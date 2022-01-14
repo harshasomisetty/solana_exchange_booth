@@ -28,6 +28,7 @@ impl Processor {
                 msg!("Instruction: InitializeExchangeBooth");
                 initialize_exchange_booth::process(program_id, accounts, fee)?;
             }
+
             ExchangeBoothInstruction::Deposit { 
                 user, // address of user calling contract
                 exchange_booth, // EB contract (see: state.rs >> EB struct)
@@ -36,7 +37,7 @@ impl Processor {
                 eb_token, // token address used in EB contract (should be same as mint)
                 token_amount,} => {
                 msg!("Instruction: Deposit");
-                deposit::process(program_id, accounts)?;
+                deposit::process(program_id, accounts, token1_amount)?;
             }
             ExchangeBoothInstruction::Withdraw { 
                 user, // address of user calling contract
@@ -46,7 +47,7 @@ impl Processor {
                 eb_token, // token address used in EB contract (should be same as mint)
                 token_amount} => {
                 msg!("Instruction: Withdraw");
-                withdraw::process(program_id, accounts)?;
+                withdraw::process(program_id, accounts, lp_token_amount)?;
             }
             ExchangeBoothInstruction::Exchange { deposit_amount } => {
                 msg!("Instruction: Exchange");
