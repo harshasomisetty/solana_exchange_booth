@@ -28,11 +28,24 @@ impl Processor {
                 msg!("Instruction: InitializeExchangeBooth");
                 initialize_exchange_booth::process(program_id, accounts, fee)?;
             }
-            ExchangeBoothInstruction::Deposit { token1_amount } => {
+
+            ExchangeBoothInstruction::Deposit { 
+                user, // address of user calling contract
+                exchange_booth, // EB contract (see: state.rs >> EB struct)
+                mint, // token mint address (should be same as eb_token)
+                admin_token, // address of admin token account 
+                eb_token, // token address used in EB contract (should be same as mint)
+                token_amount,} => {
                 msg!("Instruction: Deposit");
                 deposit::process(program_id, accounts, token1_amount)?;
             }
-            ExchangeBoothInstruction::Withdraw { lp_token_amount } => {
+            ExchangeBoothInstruction::Withdraw { 
+                user, // address of user calling contract
+                exchange_booth, // EB contract (see: state.rs >> EB struct)
+                mint, // token mint address (should be same as eb_token)
+                admin_token, // address of admin token account 
+                eb_token, // token address used in EB contract (should be same as mint)
+                token_amount} => {
                 msg!("Instruction: Withdraw");
                 withdraw::process(program_id, accounts, lp_token_amount)?;
             }

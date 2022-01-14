@@ -1,4 +1,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use solana_program::pubkey::Pubkey;
+
+use crate::state::ExchangeBooth;
 
 #[derive(BorshSerialize, BorshDeserialize, Debug, Clone)]
 pub enum ExchangeBoothInstruction {
@@ -39,8 +42,13 @@ pub enum ExchangeBoothInstruction {
     /// 7 `[writable]` depositor LP account
     /// 8 `[]` token program
     Deposit {
-        // TODO
-        token1_amount: u64 // amount of token 1 to deposit -> calculates amount of token 2
+        // TODOING
+        user: Pubkey, // address of user calling contract
+        exchange_booth: ExchangeBooth, // EB contract (see: state.rs >> EB struct)
+        mint: Pubkey, // token mint address (should be same as eb_token)
+        admin_token: Pubkey, // address of admin token account 
+        eb_token: Pubkey, // token address used in EB contract (should be same as mint)
+        token_amount: u64, // amount that user wants to deposit
     },
 
     /// Withdraws portions of supply proportionate to LP tokens
@@ -57,8 +65,13 @@ pub enum ExchangeBoothInstruction {
     /// 7 `[writable]` withdrawer LP account
     /// 8 `[]` token program
     Withdraw {
-        // TODO
-        lp_token_amount: u64 // number LP tokens to burn
+        // TODOING
+        user: Pubkey, // address of user calling contract
+        exchange_booth: ExchangeBooth, // EB contract (see: state.rs >> EB struct)
+        mint: Pubkey, // token mint address (should be same as eb_token)
+        admin_token: Pubkey, // address of admin token account 
+        eb_token: Pubkey, // token address used in EB contract (should be same as mint)
+        token_amount: u64, // amount that user wants to deposit
     },
 
     /// Exchanges an amount of token for another from a specified exchange booth
