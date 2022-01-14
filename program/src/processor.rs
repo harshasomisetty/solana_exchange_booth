@@ -28,13 +28,13 @@ impl Processor {
                 msg!("Instruction: InitializeExchangeBooth");
                 initialize_exchange_booth::process(program_id, accounts, fee)?;
             }
-            ExchangeBoothInstruction::Deposit { } => {
+            ExchangeBoothInstruction::Deposit { token1_amount } => {
                 msg!("Instruction: Deposit");
-                deposit::process(program_id, accounts)?;
+                deposit::process(program_id, accounts, token1_amount)?;
             }
-            ExchangeBoothInstruction::Withdraw { } => {
+            ExchangeBoothInstruction::Withdraw { lp_token_amount } => {
                 msg!("Instruction: Withdraw");
-                withdraw::process(program_id, accounts)?;
+                withdraw::process(program_id, accounts, lp_token_amount)?;
             }
             ExchangeBoothInstruction::Exchange { deposit_amount } => {
                 msg!("Instruction: Exchange");

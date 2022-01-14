@@ -38,7 +38,6 @@ pub fn process(
     // ACCOUNTS
     let accounts_iter = &mut accounts.iter();
 
-    let admin = next_account_info(accounts_iter)?;
     let exchange_booth_ai = next_account_info(accounts_iter)?;
     let exchange_booth_vault1_ai = next_account_info(accounts_iter)?;
     let exchange_booth_vault2_ai = next_account_info(accounts_iter)?;
@@ -163,6 +162,8 @@ pub fn process(
         ExchangeBoothError::InsufficientBalance,
         "Not enough tokens in vault to withdraw"
     )?;
+
+    // TODO don't give fee to admin
 
     // give fee to admin
     invoke(
