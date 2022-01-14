@@ -1,4 +1,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use solana_program::pubkey::Pubkey;
+
+use crate::state::ExchangeBooth;
 
 #[derive(BorshSerialize, BorshDeserialize, Debug, Clone)]
 pub enum ExchangeBoothInstruction {
@@ -24,10 +27,22 @@ pub enum ExchangeBoothInstruction {
         fee: u8,
      },
     Deposit {
-        // TODO
+        // TODOING
+        user: Pubkey, // address of user calling contract
+        exchange_booth: ExchangeBooth, // EB contract (see: state.rs >> EB struct)
+        mint: Pubkey, // token mint address (should be same as eb_token)
+        admin_token: Pubkey, // address of admin token account 
+        eb_token: Pubkey, // token address used in EB contract (should be same as mint)
+        token_amount: u64, // amount that user wants to deposit
     },
     Withdraw {
-        // TODO
+        // TODOING
+        user: Pubkey, // address of user calling contract
+        exchange_booth: ExchangeBooth, // EB contract (see: state.rs >> EB struct)
+        mint: Pubkey, // token mint address (should be same as eb_token)
+        admin_token: Pubkey, // address of admin token account 
+        eb_token: Pubkey, // token address used in EB contract (should be same as mint)
+        token_amount: u64, // amount that user wants to deposit
     },
     /// Exchanges an amount of token for another from a specified exchange booth
     /// 
